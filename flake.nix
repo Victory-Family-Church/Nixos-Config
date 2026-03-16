@@ -53,6 +53,27 @@
             ./service-config/UI/micboard-openbox-kiosk.nix # Run a basic Cage session with epiphany. Allows micboard to just be the mac and a display.
         ];
       };
+    devnix = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+            ({ config, ... }: {
+              # shut up state version warning
+              nixpkgs.system = "x86_64-linux";
+              system.stateVersion = "24.11";
+              # Adjust this to your liking.
+              # WARNING: if you set a too low value the image might be not big enough to contain the nixos installation
+            })
+            disko.nixosModules.disko
+            ({ config, ... }: {
+              nixpkgs.system = "aarch64-linux";
+              disko.devices.disk.system.device = "/dev/vda";
+            })
+            ./disk-config/vm.nix
+            ./base-config/vm.nix # Base system config. Meant to be extended with below lines.
+
+        ];
+      };
+    };
       bootstrap = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
