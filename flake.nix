@@ -94,6 +94,7 @@
               #disko.devices.disk.system.imageSize = "10G";
             })
             ./disk-config/mac-mini.nix
+            ./service-config/UI/gnome.nix
             ./base-config/mac-mini.nix # Base system config. Meant to be extended with below lines.
         ];
       };
