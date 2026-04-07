@@ -8,7 +8,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     darwin-ola.url = "github:Victory-Family-Church/darwin-ola-ftdi";
-    npm-packages.url = "github:Victory-Family-Church/Lighting-control-workspace
+    npm-packages.url = "github:Victory-Family-Church/Lighting-control-workspace";
   };
 
   outputs = {
@@ -132,4 +132,3 @@
       };
     };
   }
-
