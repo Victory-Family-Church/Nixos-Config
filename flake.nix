@@ -50,7 +50,7 @@
               services.nodeRedMidiOla = {
                 enable = true;
                 port = 1880;
-              };`
+              };
 
 # END MODULE Configure
             })
