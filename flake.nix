@@ -7,7 +7,8 @@
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
-
+    darwin-ola.url = "github:Victory-Family-Church/darwin-ola-ftdi";
+    npm-packages.url = "github:Victory-Family-Church/Lighting-control-workspace
   };
 
   outputs = {
@@ -15,6 +16,8 @@
     nixpkgs,
     impermanence,
     disko,
+    darwin-ola,
+    npm-packages,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -25,6 +28,35 @@
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
+    darwinConfigurations = { 
+      lighting = nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit inputs outputs;};
+          modules = [
+            ({ config, inputs, outputs, ...}: {
+              services.ola-ftdi = {
+                enable = true;
+                web = {
+                    enable = true;
+                    port = 9090;
+                    host = "0.0.0.0"; # expose on network
+                };
+              };
+              nix = {
+                # How this isn't a default yet is beyond me.
+                  extraOptions = ''
+                    experimental-features = nix-command flakes 
+                  '';
+              };
+              services.nodeRedMidiOla = {
+                enable = true;
+                port = 1880;
+              };`
+
+# END MODULE Configure
+            })
+          ];
+        };
+    }
     nixosConfigurations = {
       micboard = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
