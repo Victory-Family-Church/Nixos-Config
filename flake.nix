@@ -33,6 +33,7 @@
   in {
     darwinConfigurations = { 
       lighting = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
         specialArgs = {inherit inputs outputs;};
           modules = [
             ({ config, inputs, outputs, ...}: {
