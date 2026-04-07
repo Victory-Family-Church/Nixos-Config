@@ -9,6 +9,8 @@
     impermanence.url = "github:nix-community/impermanence";
     darwin-ola.url = "github:Victory-Family-Church/darwin-ola-ftdi";
     npm-packages.url = "github:Victory-Family-Church/Lighting-control-workspace";
+    darwin.url = "github:lnl7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -18,6 +20,7 @@
     disko,
     darwin-ola,
     npm-packages,
+    darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -29,7 +32,7 @@
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
     darwinConfigurations = { 
-      lighting = nix-darwin.lib.darwinSystem {
+      lighting = darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
           modules = [
             ({ config, inputs, outputs, ...}: {
