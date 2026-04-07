@@ -56,7 +56,7 @@
             })
           ];
         };
-    }
+    };
     nixosConfigurations = {
       micboard = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
