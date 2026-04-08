@@ -37,7 +37,7 @@
         specialArgs = {inherit inputs outputs;};
           modules = [
             npm-packages.darwinModules.node-red-midi-ola
-            darwin.ola.darwinModules.ola-ftdi
+            darwin-ola.darwinModules.ola-ftdi
             ({ config, inputs, outputs, ...}: {
               services.ola-ftdi = {
                 enable = true;
