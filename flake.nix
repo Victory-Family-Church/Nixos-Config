@@ -44,8 +44,6 @@
               enable = true;
               web = {
                 user = "4and5yroldroom";
-                port = 9090;
-                host = "0.0.0.0";
               };
             };
             nixpkgs.config.problems.handlers = {
