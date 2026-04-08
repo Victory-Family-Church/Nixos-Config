@@ -8,7 +8,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     darwin-ola.url = "github:Victory-Family-Church/darwin-ola-ftdi";
-    npm-packages.url = "github:Victory-Family-Church/Lighting-control-workspace";
+    node-packages.url = "github:Victory-Family-Church/Lighting-control-workspace";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -19,7 +19,7 @@
     impermanence,
     disko,
     darwin-ola,
-    npm-packages,
+    node-packages,
     darwin,
     ...
   } @ inputs: let
@@ -31,37 +31,37 @@
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
-    darwinConfigurations = { 
+    darwinConfigurations = {
       lighting = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = {inherit inputs outputs;};
-          modules = [
-            npm-packages.darwinModules.node-red-midi-ola
-            darwin-ola.darwinModules.ola-ftdi
-            ({ config, inputs, outputs, ...}: {
-              services.ola-ftdi = {
-                enable = true;
-                web = {
-                    enable = true;
-                    port = 9090;
-                    host = "0.0.0.0"; # expose on network
-                };
-              };
-              nix = {
-                # How this isn't a default yet is beyond me.
-                  extraOptions = ''
-                    experimental-features = nix-command flakes 
-                  '';
-              };
-              services.nodeRedMidiOla = {
-                enable = true;
-                port = 1880;
-              };
 
-# END MODULE Configure
-            })
-          ];
-        };
+        modules = [
+          node-packages.darwinModules.node-red-midi-ola
+          darwin-ola.darwinModules.ola-ftdi
+
+          ({ ... }: {
+
+            services.nodeRed = {
+              enable = true;
+              port = 1880;
+            };
+
+            services.ola-ftdi = {
+              enable = true;
+              web = {
+                enable = true;
+                port = 9090;
+                host = "0.0.0.0";
+              };
+            };
+
+            nix.settings.experimental-features = [
+              "nix-command"
+              "flakes"
+            ];
+          })
+        ];
+      };
     };
     nixosConfigurations = {
       micboard = nixpkgs.lib.nixosSystem {
@@ -91,26 +91,26 @@
             ./service-config/UI/micboard-openbox-kiosk.nix # Run a basic Cage session with epiphany. Allows micboard to just be the mac and a display.
         ];
       };
-    devnix = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-            ({ config, ... }: {
-              # shut up state version warning
-              nixpkgs.system = "x86_64-linux";
-              system.stateVersion = "24.11";
-              # Adjust this to your liking.
-              # WARNING: if you set a too low value the image might be not big enough to contain the nixos installation
-            })
-            disko.nixosModules.disko
-            ({ config, ... }: {
-              nixpkgs.system = "aarch64-linux";
-              disko.devices.disk.system.device = "/dev/vda";
-            })
-            ./disk-config/vm.nix
-            ./base-config/vm.nix # Base system config. Meant to be extended with below lines.
+      devnix = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs;};
+          modules = [
+              ({ config, ... }: {
+                # shut up state version warning
+                nixpkgs.system = "x86_64-linux";
+                system.stateVersion = "24.11";
+                # Adjust this to your liking.
+                # WARNING: if you set a too low value the image might be not big enough to contain the nixos installation
+              })
+              disko.nixosModules.disko
+              ({ config, ... }: {
+                nixpkgs.system = "aarch64-linux";
+                disko.devices.disk.system.device = "/dev/vda";
+              })
+              ./disk-config/vm.nix
+              ./base-config/vm.nix # Base system config. Meant to be extended with below lines.
 
-        ];
-      };
+          ];
+        };
     };
   };
 }
