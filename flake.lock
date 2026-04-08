@@ -43,7 +43,7 @@
     "darwin_2": {
       "inputs": {
         "nixpkgs": [
-          "npm-packages",
+          "node-packages",
           "nixpkgs"
         ]
       },
@@ -238,17 +238,17 @@
         "type": "github"
       }
     },
-    "npm-packages": {
+    "node-packages": {
       "inputs": {
         "darwin": "darwin_2",
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1775593879,
-        "narHash": "sha256-+kzYjmDwo0zFZErk2xSJaj1fXRrmvrlUq6i7ZwQR9+Q=",
+        "lastModified": 1775672185,
+        "narHash": "sha256-ukr2cpe6Uaq6HtyXZto2u2tVO+Swbak6u3eSblw89Ck=",
         "owner": "Victory-Family-Church",
         "repo": "Lighting-control-workspace",
-        "rev": "038e0cd8f5c924d2f61f3e701f6138e5286a0f93",
+        "rev": "2d94b0b696b48839070959241cf07c6f595afc3e",
         "type": "github"
       },
       "original": {
@@ -264,7 +264,7 @@
         "disko": "disko",
         "impermanence": "impermanence",
         "nixpkgs": "nixpkgs_4",
-        "npm-packages": "npm-packages"
+        "node-packages": "node-packages"
       }
     },
     "systems": {

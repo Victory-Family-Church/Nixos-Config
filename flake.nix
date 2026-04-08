@@ -54,6 +54,12 @@
                 host = "0.0.0.0";
               };
             };
+            users.users.nodered = {  
+              home = cfg.userDir;  
+              createHome = true;  
+              isHidden = true;  
+              shell = pkgs.bash;
+            };
             nixpkgs.config.problems.handlers = {
               ola.broken = "warn";   # or "ignore"
             };
