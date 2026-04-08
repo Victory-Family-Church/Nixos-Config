@@ -42,6 +42,7 @@
 #            services.nodeRed.enable = true;
             services.ola-ftdi = {
               enable = true;
+              user = "4and5yroldroom";
               web = {
                 enable = true;
                 port = 9090;
@@ -104,7 +105,6 @@
               })
               ./disk-config/vm.nix
               ./base-config/vm.nix # Base system config. Meant to be extended with below lines.
-
           ];
         };
     };
