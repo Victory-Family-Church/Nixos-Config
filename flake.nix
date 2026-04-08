@@ -40,7 +40,7 @@
           darwin-ola.darwinModules.ola-ftdi
 
           ({ ... }: {
-
+            system.stateVersion = 6;
             services.nodeRed = {
               enable = true;
               port = 1880;
