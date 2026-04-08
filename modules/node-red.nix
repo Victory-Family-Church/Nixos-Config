@@ -40,7 +40,7 @@ in
         mkdir -p "$NODE_RED_HOME/node_modules"
         chown -R nodered:staff "$NODE_RED_HOME"
 
-        exec ${pkgs.nodePackages.node-red}/bin/node-red \
+        exec ${pkgs.node-red}/bin/node-red \
           --userDir "$NODE_RED_HOME" \
           --port ${toString cfg.port}
       '';
