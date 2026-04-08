@@ -34,18 +34,18 @@
         system = "aarch64-darwin";
 
         modules = [
-          ./modules/node-red.nix
+#          ./modules/node-red.nix
           darwin-ola.darwinModules.ola-ftdi
 
           ({ pkgs, ... }: {
             system.stateVersion = 6;
-            services.nodeRed.enable = true;
+#            services.nodeRed.enable = true;
             services.ola-ftdi = {
               enable = true;
               web = {
                 enable = true;
                 port = 9090;
-                host = "127.0.0.1";
+                host = "0.0.0.0";
               };
             };
             nixpkgs.config.problems.handlers = {
@@ -110,3 +110,4 @@
     };
   };
 }
+
