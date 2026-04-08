@@ -18,7 +18,6 @@
     impermanence,
     disko,
     darwin-ola,
-    node-packages,
     darwin,
     ...
   } @ inputs: let
