@@ -48,9 +48,9 @@
                 host = "0.0.0.0";
               };
             };
-#            nixpkgs.config.problems.handlers = {
-#              ola.broken = "warn";   # or "ignore"
-#            };
+            nixpkgs.config.problems.handlers = {
+              ola.broken = "warn";   # or "ignore"
+            };
             nix.settings.experimental-features = [
               "nix-command"
               "flakes"
