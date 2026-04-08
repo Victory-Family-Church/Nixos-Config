@@ -22,8 +22,6 @@ in
 
     # macOS requires explicit UID >= 501
     users.users.nodered = {
-      uid = 510;
-      gid = 20;              # staff
       home = cfg.userDir;
       shell = pkgs.bash;
       createHome = true;

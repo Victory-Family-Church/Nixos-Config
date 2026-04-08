@@ -40,9 +40,6 @@
           ({ pkgs, ... }: {
             system.stateVersion = 6;
             services.nodeRed.enable = true;
-            environment.systemPackages = [   
-              pkgs.node-red  
-            ];
             services.ola-ftdi = {
               enable = true;
               web = {
