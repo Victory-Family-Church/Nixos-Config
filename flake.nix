@@ -42,8 +42,8 @@
 #            services.nodeRed.enable = true;
             services.ola-ftdi = {
               enable = true;
-              user = "4and5yroldroom";
               web = {
+                user = "4and5yroldroom";
                 port = 9090;
                 host = "0.0.0.0";
               };
