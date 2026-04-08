@@ -40,10 +40,15 @@
           ({ pkgs, ... }: {
             system.stateVersion = 6;
             services.nodeRed.enable = true;
-            environment.systemPackages = [   
-              pkgs.node-red
-              pkgs.nodejs 
-            ];
+            system.primaryUser = "4and5yroldroom";
+            homebrew = {
+                enable = true;
+                # onActivation.cleanup = "uninstall";
+
+                taps = [];
+                brews = [ "node-red" "nodejs" ];
+                casks = [];
+            };
             services.ola-ftdi = {
               enable = true;
               web = {
