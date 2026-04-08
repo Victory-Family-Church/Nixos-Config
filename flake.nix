@@ -8,7 +8,6 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     darwin-ola.url = "github:Victory-Family-Church/darwin-ola-ftdi";
-    node-packages.url = "github:Victory-Family-Church/Lighting-control-workspace";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -36,15 +35,12 @@
         system = "aarch64-darwin";
 
         modules = [
-          node-packages.darwinModules.node-red-midi-ola
+          ./modules/node-red.nix
           darwin-ola.darwinModules.ola-ftdi
 
-          ({ ... }: {
+          ({ pkgs, ... }: {
             system.stateVersion = 6;
-            services.nodeRed = {
-              enable = true;
-              port = 1880;
-            };
+            services.nodeRed.enable = true;
 
             services.ola-ftdi = {
               enable = true;
@@ -54,7 +50,6 @@
                 host = "0.0.0.0";
               };
             };
-
             nixpkgs.config.problems.handlers = {
               ola.broken = "warn";   # or "ignore"
             };
