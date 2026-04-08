@@ -40,21 +40,12 @@
           ({ pkgs, ... }: {
             system.stateVersion = 6;
             services.nodeRed.enable = true;
-            system.primaryUser = "4and5yroldroom";
-            homebrew = {
-                enable = true;
-                # onActivation.cleanup = "uninstall";
-
-                taps = [];
-                brews = [ "node-red" "nodejs" ];
-                casks = [];
-            };
             services.ola-ftdi = {
               enable = true;
               web = {
                 enable = true;
                 port = 9090;
-                host = "0.0.0.0";
+                host = "127.0.0.1";
               };
             };
             nixpkgs.config.problems.handlers = {
