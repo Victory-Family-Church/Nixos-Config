@@ -34,18 +34,14 @@
         system = "aarch64-darwin";
 
         modules = [
-#          ./modules/node-red.nix
-          darwin-ola.darwinModules.ola-ftdi
-
           ({ pkgs, ... }: {
             system.stateVersion = 6;
-#            services.nodeRed.enable = true;
-            services.ola-ftdi = {
-              enable = true;
-              web = {
-                user = "4and5yroldroom";
-              };
-            };
+            nixpkgs.overlays = [  
+              inputs.darwin-ola.overlays.default
+            ];
+            environment.systemPackages = with pkgs; [
+              olaftdi
+            ];
             nixpkgs.config.problems.handlers = {
               ola.broken = "warn";   # or "ignore"
             };
