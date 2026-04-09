@@ -41,6 +41,7 @@
             ];
             environment.systemPackages = with pkgs; [
               olaftdi
+              nodejs_25
             ];
             nixpkgs.config.problems.handlers = {
               ola.broken = "warn";   # or "ignore"
