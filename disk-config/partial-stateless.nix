@@ -66,7 +66,7 @@
   };
 
   # Ensure our filesystems exist before booting stage-2?
-  fileSystems."/docker".neededForBoot = true;  # matches the /docker-data subvolume's actual mountpoint above
+  fileSystems."/var/lib/docker".neededForBoot = true;  # matches the /docker-data subvolume's actual mountpoint above
   fileSystems."/home/user".neededForBoot = true;
   fileSystems."/system-data".neededForBoot = true;
 
