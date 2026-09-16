@@ -88,4 +88,17 @@
       { file = "/etc/ssh/ssh_host_ed25519_key.pub"; parentDirectory = { mode = "u=rwx,g=r,o=r"; }; }
     ];
   };
+
+# I really enjoy systemd-boot, but this ensures everything looks/feels the same between legacy and uefi systems.
+  boot.loader = {
+    efi = {
+        canTouchEfiVariables = false;
+    };
+    grub = {
+        enable = true;
+        efiInstallAsRemovable = true;
+        efiSupport = true;
+        version = 3;
+    };
+  };
 }
