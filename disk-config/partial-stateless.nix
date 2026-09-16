@@ -39,13 +39,13 @@
                       mountOptions = [ "compress=zstd" "noexec" ];
                       mountpoint = "/system-data";
                   };
-                  "/nix" = { # Nix store, needed for boot
+                  "/nix-store" = { # Nix store, needed for boot
                     mountOptions = [ "compress=zstd" "noatime" ];
                     mountpoint = "/nix";
                   };
-                  "/docker" = { # Docker daemon data dir
+                  "/docker-data" = { # Docker daemon data dir
                       mountOptions = [ "compress=zstd" "noatime" ];
-                      mountpoint = "/docker-data";
+                      mountpoint = "/docker";
                   };
                 };
             };
