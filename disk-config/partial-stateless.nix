@@ -31,10 +31,9 @@
                 content = {
                   type = "btrfs";
                   extraArgs = [ "-f" ];
-                subvolumes = {
-                  "/docker-compose" = { # Optional, incase we want to deploy compose projects out-of-band.
-                      mountOptions = [ "compress=zstd" "noexec" "ro" ];
-                      mountpoint = "/docker-compose";
+                  "/user-data" = {
+                      mountOptions = [ "compress=zstd" "noexec" ]; # we will not run binaries from the FS
+                      mountpoint = "/home/user";
                   };
                   "/system-data" = { # Store docker and system states here
                       mountOptions = [ "compress=zstd" "noexec" ];
@@ -49,7 +48,6 @@
                       mountpoint = "/docker-data";
                   };
                 };
-              };
             };
           };
         };
@@ -63,22 +61,13 @@
         "mode=755"
       ];
     };
-    nodev."/home/user" = { # Home-as-tmpfs
-      fsType = "tmpfs";
-      mountOptions = [
-        "size=1G"
-        "user"
-        "defaults"
-        "mode=1777"
-        "noexec"
-      ];
-    };
   };
 
   # Ensure our filesystems exist before booting stage-2?
   fileSystems."/docker-data".neededForBoot = true;
-  fileSystems."/docker-compose".neededForBoot = true;
+  fileSystems."/home/user".neededForBoot = true;
   fileSystems."/system-data".neededForBoot = true;
+
   # These are directories we need to keep
   environment.persistence."/system-data/systemState" = {
     enable = true; 
@@ -86,7 +75,6 @@
     directories = [
         "/var/log"
         "/var/lib/nixos"
-        "/var/lib/tailscale/"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
     ];
@@ -97,18 +85,5 @@
       { file = "/etc/ssh/ssh_host_ed25519_key"; parentDirectory = { mode = "u=rwx,g=r,o=r"; }; }
       { file = "/etc/ssh/ssh_host_ed25519_key.pub"; parentDirectory = { mode = "u=rwx,g=r,o=r"; }; }
     ];
-  };
-  
-# I really enjoy systemd-boot, but this ensures everything looks/feels the same between legacy and uefi systems.
-  boot.loader = {
-    efi = {
-        canTouchEfiVariables = false;
-    };
-    grub = {
-        enable = true;
-        efiInstallAsRemovable = true;
-        efiSupport = true;
-        version = 3;
-    };
   };
 }
