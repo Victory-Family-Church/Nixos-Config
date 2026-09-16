@@ -118,7 +118,6 @@
               ({ config, ... }: {
                 nixpkgs.system = "x86_64-linux";
                 system.stateVersion = "24.11";
-                nixpkgs.system = "aarch64-linux";
                 disko.devices.disk.system.device = "/dev/vda";
               })
               ./disk-config/vm.nix
