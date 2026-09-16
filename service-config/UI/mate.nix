@@ -4,8 +4,8 @@
     services.xserver.enable = true;
 
     # Enable the LightDM display manager.
-    services.xserver.displayManager.lightDM.enable = true;
+      services.xserver.displayManager.lightdm.enable = true;
 
     # Enable the MATE Desktop Environment.
-    services.xserver.desktopManager.mate.enable = true;
+        services.xserver.desktopManager.mate.enable = true;
 }
