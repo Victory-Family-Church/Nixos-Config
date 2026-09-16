@@ -31,21 +31,23 @@
                 content = {
                   type = "btrfs";
                   extraArgs = [ "-f" ];
-                  "/user-data" = {
-                      mountOptions = [ "compress=zstd" "noexec" ]; # we will not run binaries from the FS
-                      mountpoint = "/home/user";
-                  };
-                  "/system-data" = { # Store docker and system states here
-                      mountOptions = [ "compress=zstd" "noexec" ];
-                      mountpoint = "/system-data";
-                  };
-                  "/nix-store" = { # Nix store, needed for boot
-                    mountOptions = [ "compress=zstd" "noatime" ];
-                    mountpoint = "/nix";
-                  };
-                  "/docker-data" = { # Docker daemon data dir
+                  subvolumes = {
+                    "/user-data" = {
+                        mountOptions = [ "compress=zstd" "noexec" ]; # we will not run binaries from the FS
+                        mountpoint = "/home/user";
+                    };
+                    "/system-data" = { # Store docker and system states here
+                        mountOptions = [ "compress=zstd" "noexec" ];
+                        mountpoint = "/system-data";
+                    };
+                    "/nix-store" = { # Nix store, needed for boot
                       mountOptions = [ "compress=zstd" "noatime" ];
-                      mountpoint = "/docker";
+                      mountpoint = "/nix";
+                    };
+                    "/docker-data" = { # Docker daemon data dir
+                        mountOptions = [ "compress=zstd" "noatime" ];
+                        mountpoint = "/docker";
+                    };
                   };
                 };
             };
@@ -64,7 +66,7 @@
   };
 
   # Ensure our filesystems exist before booting stage-2?
-  fileSystems."/docker-data".neededForBoot = true;
+  fileSystems."/docker".neededForBoot = true;  # matches the /docker-data subvolume's actual mountpoint above
   fileSystems."/home/user".neededForBoot = true;
   fileSystems."/system-data".neededForBoot = true;
 
