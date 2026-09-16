@@ -113,6 +113,7 @@
 
       devnix = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs outputs;};
+            modules = [
               disko.nixosModules.disko
               ({ config, ... }: {
                 nixpkgs.system = "x86_64-linux";
