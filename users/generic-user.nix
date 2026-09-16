@@ -22,7 +22,7 @@
     extraOptions = ''
         experimental-features = nix-command flakes 
     '';
-    allowedUsers = [ "root" ]; # Prevent anyone from accessing nix
+    allowedUsers = [ "root" "user" ]; # Prevent anyone from accessing nix
     };
 
 }
