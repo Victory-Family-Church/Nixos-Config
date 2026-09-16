@@ -14,7 +14,7 @@
         };
     };
 
-    services.openssh = {
+    services.openssh.settings = {
         AllowUsers = [ "user" ]; # Allows all users by default. Can be [ "user1" "user2" ]
     };
 
