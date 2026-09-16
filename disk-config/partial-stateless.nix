@@ -46,7 +46,7 @@
                     };
                     "/docker-data" = { # Docker daemon data dir
                         mountOptions = [ "compress=zstd" "noatime" ];
-                        mountpoint = "/docker";
+                        mountpoint = "/var/lib/docker";
                     };
                   };
                 };
