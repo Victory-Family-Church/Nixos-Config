@@ -79,8 +79,8 @@
             ({ config, ... }: {
               nixpkgs.system = "x86_64-linux";
               system.stateVersion = "26.05";
-              disko.devices.disk.system.device = "/dev/sda";
-              boot.loader.grub.device = "/dev/sda";
+              disko.devices.disk.system.device = "/dev/sdb";
+              boot.loader.grub.device = "/dev/sdb";
             })
             ./users/generic-user.nix
             ./disk-config/partial-stateless.nix
