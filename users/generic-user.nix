@@ -9,7 +9,7 @@
             home = "/home/user";
             description  = "user";
             uid = 1000; 
-            extraGroups = [ "networkmanager" "dialout" "docker" ]; 
+            extraGroups = [ "networkmanager" "dialout" "docker" "wheel" ]; 
             hashedPassword = "$6$G9mudw188tmjfbTX$Yuutp1clPaRhzjiQrXVi1W6vtTujLLQDQ1dHUq.5.Q1cnHfWGKTjcGOHEVTZcDt5i7fYu8vwulfNpPOmO.bzy1";
         };
     };
