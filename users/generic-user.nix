@@ -1,5 +1,6 @@
 
 { outputs, inputs, lib, config, pkgs, ... }:{
+    services.xserver.displayManager.autoLogin.user = "user";
     # I don't typically want this, but do in this case.
     users.mutableUsers = true;
     # Define out user
