@@ -1,0 +1,45 @@
+--- a/collector.go
++++ b/collector.go
+@@ -64,19 +64,23 @@
+ 		return
+ 	}
+ 
++	// Status-only models (e.g. CODA-45) have no login; carry on unauthenticated.
+ 	err = c.client.Login(c.ctx)
+ 	if err != nil {
+-		slog.ErrorContext(c.ctx, "Error logging in", "err", err)
+-		exporterClientErrors.Inc()
+-
+-		return
++		slog.WarnContext(c.ctx, "Login failed; continuing unauthenticated", "err", err)
++	} else {
++		defer c.client.Logout(c.ctx)
+ 	}
+ 
+-	defer c.client.Logout(c.ctx)
++	if !c.config.ModemOnly {
++		c.rc.Collect(ch)
++	}
+ 
+-	c.rc.Collect(ch)
+ 	c.cc.Collect(ch)
+-	c.wc.Collect(ch)
++
++	if !c.config.ModemOnly {
++		c.wc.Collect(ch)
++	}
+ 
+ 	// collect is deferred
+ 	c.up.Set(1)
+--- a/config.go
++++ b/config.go
+@@ -12,6 +12,9 @@
+ 	Host     string
+ 	Username string
+ 	Password string
++	// ModemOnly skips the Router and WiFi collectors, for bridge-only models
++	// such as the CODA-45 that have no router or WiFi APIs.
++	ModemOnly bool `yaml:"modem_only"`
+ }
+ 
+ // parse a config file

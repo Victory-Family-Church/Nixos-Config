@@ -1,0 +1,37 @@
+--- a/github.com/hairyhenderson/hitron_coda/cm_types.go
++++ b/github.com/hairyhenderson/hitron_coda/cm_types.go
+@@ -146,7 +146,7 @@
+ 		SNR            float64 `json:"snr,string"`
+ 		Frequency      int64   `json:"frequency,string"`
+ 		Bandwidth      int64   `json:"bandwidth,string"`
+-		DSOctets       int64   `json:"dsoctets,string"`
++		DSOctets       json.RawMessage `json:"dsoctets"`
+ 		Correcteds     int64   `json:"correcteds,string"`
+ 		Uncorrect      int64   `json:"uncorrect,string"`
+ 	}{}
+@@ -160,7 +160,7 @@
+ 	p.ChannelID = raw.ChannelID
+ 	p.Frequency = raw.Frequency
+ 	p.Bandwidth = raw.Bandwidth
+-	p.DsOctets = raw.DSOctets
++	p.DsOctets = parseOctets(strings.Trim(string(raw.DSOctets), `"`))
+ 	p.Correcteds = raw.Correcteds
+ 	p.Uncorrect = raw.Uncorrect
+ 	p.SNR = raw.SNR
+@@ -487,3 +487,16 @@
+ 
+ 	return nil
+ }
++
++// parseOctets handles both plain counts ("12345") and the wrapped 32-bit
++// form some firmware reports ("9 * 2e32 + 868756518", i.e. 9*2^32 + n).
++func parseOctets(s string) int64 {
++	s = strings.TrimSpace(s)
++	if hi, lo, ok := strings.Cut(s, "+"); ok {
++		mult, _, _ := strings.Cut(hi, "*")
++
++		return atoi64(mult)<<32 + atoi64(lo)
++	}
++
++	return atoi64(s)
++}

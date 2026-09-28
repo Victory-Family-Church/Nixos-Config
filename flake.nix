@@ -89,6 +89,23 @@
             ./service-config/UI/mate.nix 
         ];
       };
+      prometheus = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+            disko.nixosModules.disko
+            ({ config, ... }: {
+              nixpkgs.system = "x86_64-linux";
+              system.stateVersion = "26.05";
+              disko.devices.disk.system.device = "/dev/sda";
+              boot.loader.grub.device = "/dev/sda";
+            })
+            ./users/generic-user.nix
+            ./disk-config/partial-stateless.nix
+            ./base-config/prometheus.nix # Base system config. Meant to be extended with below lines.
+            ./service-config/monitoring/prometheus.nix # Prometheus + node_exporter, exposed to Grafana over Tailscale only.
+            ./service-config/monitoring/hitron-exporter.nix # Hitron CODA-45 modem metrics (patched exporter; unverified against real hardware).
+        ];
+      };
 # Lights for Stu min
       lights = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
